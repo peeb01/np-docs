@@ -14,6 +14,10 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const basePath =
+  process.env.NEXT_PUBLIC_BASE_PATH ??
+  (process.env.NODE_ENV === "production" ? "/document.np" : "");
+
 export const metadata: Metadata = {
   title: "NP Programming Language | Official Documentation",
   description:
@@ -21,9 +25,12 @@ export const metadata: Metadata = {
   keywords: ["NP", "programming language", "LLVM", "compiler", "docs", "pythonic", "native binary"],
   authors: [{ name: "NP Language Core Team" }],
   icons: {
-    icon: "/NP.png",
-    shortcut: "/NP.png",
-    apple: "/NP.png",
+    icon: [
+      { url: `${basePath}/NP.png`, type: "image/png" },
+      { url: `${basePath}/favicon.ico` },
+    ],
+    shortcut: `${basePath}/NP.png`,
+    apple: `${basePath}/NP.png`,
   },
 };
 
@@ -35,7 +42,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}>
       <head>
-        <link rel="icon" href="/NP.png" />
+        <link rel="icon" type="image/png" href={`${basePath}/NP.png`} />
+        <link rel="shortcut icon" href={`${basePath}/favicon.ico`} />
+        <link rel="apple-touch-icon" href={`${basePath}/NP.png`} />
       </head>
       <body className="min-h-full flex flex-col font-sans selection:bg-blue-100 selection:text-blue-900">
         {children}
