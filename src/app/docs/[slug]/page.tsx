@@ -93,14 +93,7 @@ export default async function DocPage({ params }: PageProps) {
       <div className="mt-8 space-y-12">
         {doc.content.sections.map((section) => (
           <section key={section.id} id={section.id} className="scroll-mt-24 space-y-4">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2 group">
-              <a
-                href={`#${section.id}`}
-                className="text-slate-400 group-hover:text-blue-600 transition-colors"
-                aria-label="Anchor link"
-              >
-                #
-              </a>
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900">
               {section.title}
             </h2>
 
