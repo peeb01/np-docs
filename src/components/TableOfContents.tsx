@@ -47,7 +47,7 @@ export function TableOfContents({ sections }: TableOfContentsProps) {
     e.preventDefault();
     const el = document.getElementById(id);
     if (el) {
-      const yOffset = -90;
+      const yOffset = -100;
       const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
       setActiveId(id);
@@ -71,9 +71,9 @@ export function TableOfContents({ sections }: TableOfContentsProps) {
                 key={section.id}
                 href={`#${section.id}`}
                 onClick={(e) => scrollToSection(e, section.id)}
-                className={`block py-1.5 pl-3 text-xs transition-all border-l-2 leading-relaxed ${
+                className={`block py-1.5 pl-3 text-xs transition-colors border-l-2 leading-relaxed ${
                   isActive
-                    ? "border-blue-600 font-bold text-blue-600 bg-blue-50/40 rounded-r-md"
+                    ? "border-blue-600 font-semibold text-blue-600 bg-blue-50/60 rounded-r-md"
                     : "border-transparent text-slate-600 hover:border-slate-300 hover:text-slate-900"
                 }`}
               >

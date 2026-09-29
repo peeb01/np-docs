@@ -25,7 +25,7 @@ export function DocsSidebar() {
   }, [pathname]);
 
   return (
-    <aside className="w-full shrink-0 lg:w-72 xl:w-80 sticky top-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto pr-1">
+    <aside className="w-full shrink-0 lg:w-72 xl:w-80 sticky top-[5.5rem] self-start max-h-[calc(100vh-6.5rem)] overflow-y-auto pr-1">
       <div className="flex flex-col space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
         {/* Search Filter Box */}
         <div className="relative">

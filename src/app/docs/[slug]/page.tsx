@@ -181,7 +181,7 @@ export default async function DocPage({ params }: PageProps) {
       </article>
 
       {/* Right Column: AWS-Style Table of Contents (On this page) */}
-      <aside className="hidden xl:block w-72 shrink-0 sticky top-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto pr-1">
+      <aside className="hidden xl:block w-72 shrink-0 sticky top-[5.5rem] self-start max-h-[calc(100vh-6.5rem)] overflow-y-auto pr-1">
         <TableOfContents sections={doc.content.sections} />
       </aside>
     </div>

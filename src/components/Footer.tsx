@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { BookOpen, Terminal, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 
@@ -10,17 +9,11 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-5">
           {/* Brand info */}
           <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl overflow-hidden border border-slate-200/80 bg-white shadow-xs">
-                <Image
-                  src="/NP.png"
-                  alt="NP Logo"
-                  width={32}
-                  height={32}
-                  className="h-full w-full object-contain p-1"
-                />
-              </div>
-              <span className="font-black text-xl tracking-tight text-slate-900">NP Language</span>
+            <div className="flex items-center gap-2">
+              <span className="font-black text-2xl tracking-tight text-slate-900">NP</span>
+              <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-bold tracking-wide text-blue-600 border border-blue-200">
+                v1.1
+              </span>
             </div>
             <p className="text-sm text-slate-600 max-w-sm leading-relaxed">
               A lightweight scripting language combining clean Python-style syntax and comprehensions with native C++ execution speeds via LLVM.
