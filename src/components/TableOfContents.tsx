@@ -18,34 +18,45 @@ export function TableOfContents({ sections }: TableOfContentsProps) {
   const [feedbackGiven, setFeedbackGiven] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const headingElements = sections
-        .map((s) => document.getElementById(s.id))
-        .filter((el): el is HTMLElement => el !== null);
+    if (sections.length === 0) return;
+    setActiveId(sections[0].id);
 
-      const scrollPosition = window.scrollY + 120;
-
-      for (let i = headingElements.length - 1; i >= 0; i--) {
-        const el = headingElements[i];
-        if (el.offsetTop <= scrollPosition) {
-          setActiveId(el.id);
-          return;
-        }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: "-80px 0px -65% 0px",
+        threshold: 0.1,
       }
-      if (headingElements.length > 0) {
-        setActiveId(headingElements[0].id);
-      }
-    };
+    );
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    sections.forEach((s) => {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    });
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => observer.disconnect();
   }, [sections]);
 
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      const yOffset = -90;
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+      setActiveId(id);
+    }
+  };
+
   return (
-    <div className="sticky top-20 flex flex-col space-y-6">
-      {/* On this page Navigation */}
+    <div className="flex flex-col space-y-5">
+      {/* On this page Navigation Card */}
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
         <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
           On this page
@@ -59,9 +70,10 @@ export function TableOfContents({ sections }: TableOfContentsProps) {
               <a
                 key={section.id}
                 href={`#${section.id}`}
-                className={`block py-1.5 pl-3 text-xs transition-all border-l-2 ${
+                onClick={(e) => scrollToSection(e, section.id)}
+                className={`block py-1.5 pl-3 text-xs transition-all border-l-2 leading-relaxed ${
                   isActive
-                    ? "border-blue-600 font-bold text-blue-600"
+                    ? "border-blue-600 font-bold text-blue-600 bg-blue-50/40 rounded-r-md"
                     : "border-transparent text-slate-600 hover:border-slate-300 hover:text-slate-900"
                 }`}
               >

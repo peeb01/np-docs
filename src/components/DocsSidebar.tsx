@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DOC_CATEGORIES } from "@/data/docs";
-import { Search, ChevronRight, BookOpen, Layers } from "lucide-react";
+import { Search, ChevronRight } from "lucide-react";
 
 export function DocsSidebar() {
   const pathname = usePathname();
@@ -17,9 +17,16 @@ export function DocsSidebar() {
     ),
   })).filter((cat) => cat.items.length > 0);
 
+  useEffect(() => {
+    const activeEl = document.querySelector('[data-active-nav="true"]');
+    if (activeEl) {
+      activeEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+  }, [pathname]);
+
   return (
-    <aside className="w-full shrink-0 lg:w-64 xl:w-72">
-      <div className="sticky top-20 flex flex-col space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+    <aside className="w-full shrink-0 lg:w-72 xl:w-80 sticky top-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto pr-1">
+      <div className="flex flex-col space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
         {/* Search Filter Box */}
         <div className="relative">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
@@ -33,7 +40,7 @@ export function DocsSidebar() {
         </div>
 
         {/* Categories List */}
-        <div className="space-y-6 max-h-[calc(100vh-14rem)] overflow-y-auto pr-1">
+        <div className="space-y-6">
           {filteredCategories.map((category) => (
             <div key={category.name} className="space-y-2">
               <h3 className="px-2 text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">
@@ -48,6 +55,7 @@ export function DocsSidebar() {
                     <li key={item.slug}>
                       <Link
                         href={href}
+                        data-active-nav={isActive ? "true" : undefined}
                         className={`group flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-all ${
                           isActive
                             ? "bg-blue-50 text-blue-600 shadow-xs border border-blue-200/60"

@@ -11,7 +11,7 @@ export default function DocsLayout({
     <div className="min-h-screen flex flex-col bg-[#edeef7]">
       <Navbar />
       <div className="flex-1">
-        <div className="mx-auto max-w-[96rem] px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[105rem] w-full px-4 py-8 sm:px-6 lg:px-8 xl:px-10">
           <div className="flex flex-col gap-8 lg:flex-row items-start">
             {/* Left Sidebar Navigation */}
             <DocsSidebar />
