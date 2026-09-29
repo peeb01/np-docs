@@ -762,7 +762,7 @@ print("Elapsed milliseconds:", elapsed)`,
             filename: "json_demo.np",
             code: `import "json"
 
-string payload = "{\\"name\\": \\"NP\\", \\"version\\": \\"0.2.0\\"}"
+string payload = "{\\"name\\": \\"NP\\", \\"version\\": \\"1.1\\"}"
 
 dict data = json.parse(payload)
 print("Language:", data["name"])

@@ -9,36 +9,37 @@ interface CodeBlockProps {
   filename?: string;
 }
 
-// Light minimal syntax highlighter for clean bright documentation
+// Light minimal syntax tokenizer preserving 100% indentation
 function renderLightSyntax(code: string) {
   const lines = code.split("\n");
 
   return lines.map((line, lineIdx) => {
+    // Preserve full whitespace indentation
     const trimmed = line.trimStart();
 
     // Full line comment
     if (trimmed.startsWith("#") || trimmed.startsWith("//")) {
       return (
-        <div key={lineIdx} className="table-row">
-          <span className="table-cell pr-4 text-right select-none text-slate-300 font-mono text-xs">
+        <div key={lineIdx} className="flex leading-6 font-mono text-xs sm:text-sm">
+          <span className="w-8 shrink-0 select-none text-right pr-4 text-slate-300 font-mono text-xs">
             {lineIdx + 1}
           </span>
-          <span className="table-cell text-slate-400 italic">{line}</span>
+          <span className="flex-1 whitespace-pre text-slate-400 italic">{line}</span>
         </div>
       );
     }
 
     // Tokenize NP syntax
-    const tokenRegex = /(#[^\n]*|\/\/[^\n]*|"(?:\\.|[^"\\])*"|\b(?:fn|struct|import|if|elif|else|while|for|in|return|var|as|and|or|not|try|except|range|print)\b|\b(?:int|int32|int64|int128|int256|float|float32|float64|string|bool|array|dict|void)\b|\b\d+(?:\.\d+)?\b|[{}()[\]:.,+\-*/%^=><]+|\s+|\w+)/g;
+    const tokenRegex = /(#[^\n]*|\/\/[^\n]*|"(?:\\.|[^"\\])*"|\b(?:fn|struct|import|if|elif|else|while|for|in|return|var|as|and|or|not|try|except|range|print|len)\b|\b(?:int|int32|int64|int128|int256|float|float32|float64|string|bool|array|dict|void)\b|\b\d+(?:\.\d+)?\b|[{}()[\]:.,+\-*/%^=><]+|\s+|\w+)/g;
 
     const parts = line.match(tokenRegex) || [line];
 
     return (
-      <div key={lineIdx} className="table-row">
-        <span className="table-cell pr-4 text-right select-none text-slate-300 font-mono text-xs">
+      <div key={lineIdx} className="flex leading-6 font-mono text-xs sm:text-sm">
+        <span className="w-8 shrink-0 select-none text-right pr-4 text-slate-300 font-mono text-xs">
           {lineIdx + 1}
         </span>
-        <span className="table-cell">
+        <span className="flex-1 whitespace-pre">
           {parts.map((token, tokenIdx) => {
             if (token.startsWith("#") || token.startsWith("//")) {
               return (
@@ -55,7 +56,7 @@ function renderLightSyntax(code: string) {
               );
             }
             if (
-              /^(fn|struct|import|if|elif|else|while|for|in|return|var|as|and|or|not|try|except|range|print)$/.test(
+              /^(fn|struct|import|if|elif|else|while|for|in|return|var|as|and|or|not|try|except|range|print|len)$/.test(
                 token
               )
             ) {
@@ -78,7 +79,7 @@ function renderLightSyntax(code: string) {
             }
             if (/^\d+(?:\.\d+)?$/.test(token)) {
               return (
-                <span key={tokenIdx} className="text-purple-600">
+                <span key={tokenIdx} className="text-purple-600 font-medium">
                   {token}
                 </span>
               );
@@ -148,9 +149,9 @@ export function CodeBlock({ code, language = "np", filename }: CodeBlockProps) {
         </button>
       </div>
 
-      {/* Clean Crisp Code Area */}
-      <div className="overflow-x-auto p-4 font-mono text-xs sm:text-sm leading-relaxed text-slate-800 selection:bg-blue-100 selection:text-blue-900">
-        <div className="table w-full border-collapse">
+      {/* Code Area with strict whitespace-pre preserving indentation */}
+      <div className="overflow-x-auto p-4 font-mono text-xs sm:text-sm text-slate-800 selection:bg-blue-100 selection:text-blue-900">
+        <div className="min-w-full">
           {renderLightSyntax(code)}
         </div>
       </div>

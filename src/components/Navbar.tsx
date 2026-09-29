@@ -21,7 +21,7 @@ export function Navbar() {
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-xl tracking-tight text-slate-900">NP</span>
                 <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold tracking-wide text-blue-600 border border-blue-200">
-                  v0.2.0
+                  v1.1
                 </span>
               </div>
             </div>

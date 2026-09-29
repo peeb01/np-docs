@@ -25,28 +25,26 @@ export function Hero() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-blue-100/40 via-indigo-50/20 to-transparent pointer-events-none -z-10" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        {/* Release Pill Badge */}
+        {/* Release Pill Badge with v1.1 */}
         <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/90 px-4 py-1.5 text-xs font-semibold text-blue-700 shadow-xs mb-6 backdrop-blur-sm">
           <span className="flex h-2 w-2 relative">
             <span className="absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75 animate-ping" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-600" />
           </span>
-          <span className="font-mono font-bold">NP Compiler</span>
-          <span className="text-slate-300">|</span>
-          <span>Pythonic Syntax • Native LLVM Execution</span>
+          <span className="font-mono font-bold">NP Language</span>
+          <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold text-blue-800">
+            v1.1
+          </span>
         </div>
 
-        {/* Hero Title */}
-        <h1 className="mx-auto max-w-4xl text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.1]">
-          Pythonic Simplicity.{" "}
-          <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 bg-clip-text text-transparent">
-            Native C++ Speed.
-          </span>
+        {/* Honest, Clear Title */}
+        <h1 className="mx-auto max-w-4xl text-4xl sm:text-6xl font-black tracking-tight text-slate-900 leading-[1.15]">
+          NP Programming Language
         </h1>
 
-        {/* Subtitle */}
-        <p className="mx-auto mt-6 max-w-2xl text-lg sm:text-xl text-slate-600 font-normal leading-relaxed">
-          NP is a lightweight scripting language combining clean Python-style syntax and comprehensions with native C++ execution speeds and automated memory management via LLVM.
+        {/* Simple, Non-Boasting Description */}
+        <p className="mx-auto mt-4 max-w-2xl text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
+          ภาษาเขียนสคริปต์ที่ใช้ไวยากรณ์คล้าย Python แต่คอมไพล์เป็นโปรแกรมทำงานจริง (Native Binary) ได้ทันที รองรับทั้งการรันสคริปต์ตรงๆ และการบิลด์เป็นไฟล์ไบนารีพร้อมใช้งาน
         </p>
 
         {/* Action Buttons */}
@@ -56,7 +54,7 @@ export function Hero() {
             className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-blue-600 px-7 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-blue-700 hover:shadow-md active:scale-95"
           >
             <BookOpen className="w-4 h-4 mr-2" />
-            Explore Documentation
+            อ่านเอกสารคู่มือ
             <ArrowRight className="w-4 h-4 ml-2" />
           </Link>
 
@@ -64,7 +62,7 @@ export function Hero() {
             href="/docs/installation"
             className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-bold text-slate-700 shadow-xs transition-all hover:bg-slate-50 hover:border-slate-400 active:scale-95"
           >
-            Installation Guide
+            วิธีติดตั้ง &amp; ใช้งาน
           </Link>
 
           <a
@@ -105,7 +103,7 @@ export function Hero() {
             </button>
           </div>
           <p className="mt-2 text-xs text-slate-400">
-            Instant zero-install setup via Docker. Or compile from source with LLVM.
+            รันผ่าน Docker ได้ทันทีโดยไม่ต้องติดตั้ง C++ หรือ LLVM ในเครื่อง
           </p>
         </div>
       </div>

@@ -175,7 +175,7 @@ export default async function DocPage({ params }: PageProps) {
           <ExternalLink className="w-3.5 h-3.5" />
           Edit this documentation on GitHub
         </a>
-        <span className="text-slate-600">NP Compiler v0.2.0</span>
+        <span className="text-slate-600">NP Compiler v1.1</span>
       </div>
     </article>
   );

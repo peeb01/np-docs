@@ -28,7 +28,7 @@ export function Footer() {
                 <GithubIcon className="w-3.5 h-3.5" />
                 peeb01/np
               </a>
-              <span className="text-xs text-slate-600 font-mono">v0.2.0 • MIT License</span>
+              <span className="text-xs text-slate-600 font-mono">v1.1 • MIT License</span>
             </div>
           </div>
 
