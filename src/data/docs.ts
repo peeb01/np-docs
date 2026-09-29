@@ -292,53 +292,131 @@ np build hello.np
       lead: "NP supports both strictly typed variables and dynamically typed variables with automatic memory management.",
       sections: [
         {
-          id: "primitives",
-          title: "Primitive Types",
-          description: "Primitive types are stack-allocated and mapped directly to C++ primitives:",
-          points: [
-            "int, int32, int64: 64-bit signed integer (default: 0)",
-            "float, float32, float64: 64-bit double-precision float (default: 0.0)",
-            "bool: Boolean flag (true or false)",
-            "string: UTF-8 dynamic string (std::string wrapper)",
-            "array: Dynamic heap-allocated list (std::vector)",
-            "dict: Key-value associative mapping (std::map)",
-          ],
+          id: "integers",
+          title: "Integers (int, int32, int64)",
+          description: "NP provides 64-bit signed integers by default. Variables declared with int are stack-allocated and mapped directly to LLVM i64 with zero runtime overhead.",
           code: {
             language: "np",
-            filename: "types.np",
-            code: `# Static variable declarations
-int age = 25
-float pi = 3.14159
-string username = "Alice"
-bool is_admin = true
+            filename: "integers.np",
+            code: `# Declaring integers
+int count = 42
+int negative_val = -15
+int default_int       # Defaults to 0
 
-# Dynamic variable declaration (var)
-var dynamic_val = 100
-dynamic_val = "Now holding a string!"
-dynamic_val = [1, 2, 3]
+# Arithmetic operations
+int sum = count + 10
+int product = count * 2
 
-print(username, "is", age, "years old")`,
+print("Count:", count)
+print("Sum:", sum)
+print("Product:", product)`,
           },
         },
         {
-          id: "operators",
-          title: "Operators & Math",
-          description: "NP supports standard arithmetic, modulo, power (^), and logical operators:",
+          id: "floats",
+          title: "Floating-Point Numbers (float, float64)",
+          description: "Floating-point numbers in NP are 64-bit IEEE 754 double-precision numbers, mapping directly to LLVM double.",
           code: {
             language: "np",
-            filename: "operators.np",
+            filename: "floats.np",
+            code: `# Declaring floats
+float pi = 3.14159
+float temperature = -4.5
+float default_float   # Defaults to 0.0
+
+# Float division
+float radius = 5.0
+float area = pi * (radius ^ 2)
+
+print("Radius:", radius)
+print("Calculated Area:", area)`,
+          },
+        },
+        {
+          id: "booleans",
+          title: "Booleans (bool)",
+          description: "Booleans hold 1-bit flags (true or false). NP supports Pythonic logical operators: and, or, not.",
+          code: {
+            language: "np",
+            filename: "booleans.np",
+            code: `# Declaring booleans
+bool is_ready = true
+bool has_errors = false
+
+# Logical operations (and, or, not)
+bool can_proceed = is_ready and not has_errors
+print("Can Proceed:", can_proceed)
+
+# Comparison operations
+bool is_greater = 10 > 5
+print("10 > 5:", is_greater)`,
+          },
+        },
+        {
+          id: "strings",
+          title: "Strings (string)",
+          description: "Strings in NP represent dynamic UTF-8 text, implemented as a wrapper around C++ std::string with automatic reference counting.",
+          code: {
+            language: "np",
+            filename: "strings.np",
+            code: `# Declaring strings
+string first_name = "Alex"
+string last_name = "Rivers"
+
+# String concatenation
+string full_name = first_name + " " + last_name
+print("Full Name:", full_name)
+
+# String length
+print("Length:", len(full_name))`,
+          },
+        },
+        {
+          id: "dynamic-variables",
+          title: "Dynamic Variables (var)",
+          description: "When you want dynamic typing without declaring explicit types, use the var keyword. Under the hood, var uses runtime smart pointers (np_var*) allowing seamless type changes.",
+          code: {
+            language: "np",
+            filename: "dynamic.np",
+            code: `# Dynamic variable initialization
+var value = 100
+print("Initial integer:", value)
+
+# Reassigning to string
+value = "Now holding text!"
+print("Updated string:", value)
+
+# Reassigning to an array list
+value = [1, 2, 3, 4]
+print("Updated array:", value)`,
+          },
+        },
+        {
+          id: "scoping-lifetime",
+          title: "Variable Scoping & RAII Lifetime",
+          description: "NP automatically manages variable lifetimes based on their scope boundaries.",
+          points: [
+            "Stack Primitives: Primitive variables (int, float, bool) are allocated on the stack and discarded immediately when their function or block exits.",
+            "Heap Structures: Complex variables (string, array, dict, var) use reference counting and release their heap memory the moment their reference hits zero.",
+            "Shadowing: Local variables declared inside inner blocks cleanly shadow outer global variables without collision.",
+          ],
+        },
+        {
+          id: "operators-math",
+          title: "Operators & Math",
+          description: "NP supports standard mathematical operations, modulo (%), and the power operator (^):",
+          code: {
+            language: "np",
+            filename: "math_ops.np",
             code: `int a = 10
 int b = 3
 
-print("Addition:", a + b)       # 13
-print("Division:", a / b)       # 3 (integer division)
-print("Modulo:", a % b)         # 1
-print("Power:", 2 ^ 3)          # 8
-
-# Logical operators: and, or, not
-bool x = true
-bool y = false
-print(x and not y)              # true`,
+print("Addition (+):", a + b)       # 13
+print("Subtraction (-):", a - b)    # 7
+print("Multiplication (*):", a * b) # 30
+print("Integer Division (/):", a / b) # 3
+print("Modulo (%):", a % b)         # 1
+print("Power (^):", 2 ^ 3)          # 8`,
           },
         },
       ],
