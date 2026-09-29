@@ -39,49 +39,43 @@ export const DOC_CATEGORIES: NavCategory[] = [
     name: "Getting Started",
     items: [
       { title: "Introduction", slug: "introduction" },
-      { title: "Installation & CLI", slug: "installation" },
-      { title: "Hello World", slug: "hello-world" },
+      { title: "Installation & Setup", slug: "installation", badge: "Guide" },
+      { title: "Hello World & CLI", slug: "hello-world" },
     ],
   },
   {
-    name: "Language Basics",
+    name: "Language Fundamentals",
     items: [
-      { title: "Variables & Types", slug: "basics" },
-      { title: "Control Flow", slug: "control-flow" },
-      { title: "Functions & Returns", slug: "functions" },
+      { title: "Variables & Type System", slug: "basics" },
+      { title: "Control Flow & Loops", slug: "control-flow" },
+      { title: "Functions & Parameters", slug: "functions" },
     ],
   },
   {
-    name: "Object-Oriented Programming",
+    name: "Data Structures & OOP",
     items: [
-      { title: "Structs & Fields", slug: "structs" },
-      { title: "Methods & Receivers", slug: "methods" },
-      { title: "Interfaces & Polymorphism", slug: "interfaces" },
+      { title: "Arrays & Dictionaries", slug: "collections" },
+      { title: "Custom Structs", slug: "structs" },
+      { title: "Pythonic Comprehensions", slug: "comprehensions" },
     ],
   },
   {
-    name: "Concurrency & Runtime",
+    name: "Advanced Features",
     items: [
-      { title: "Goroutines (go)", slug: "concurrency" },
-      { title: "Channels & Sync", slug: "channels" },
+      { title: "Modules & Import System", slug: "modules" },
+      { title: "128 & 256-Bit Integers", slug: "big-integers" },
+      { title: "Exception Handling", slug: "exceptions" },
+      { title: "LLVM Backend Architecture", slug: "architecture" },
     ],
   },
   {
     name: "Standard Library",
     items: [
       { title: "Standard Library Overview", slug: "stdlib" },
-      { title: "os & sys (System)", slug: "stdlib-os" },
-      { title: "crypto (Hashing)", slug: "stdlib-crypto" },
-      { title: "json (Serialization)", slug: "stdlib-json" },
-      { title: "time (Benchmarking)", slug: "stdlib-time" },
-      { title: "regex (Patterns)", slug: "stdlib-regex" },
-    ],
-  },
-  {
-    name: "Advanced Features",
-    items: [
-      { title: "Generics & Polymorphism", slug: "generics" },
-      { title: "LLVM Compiler Architecture", slug: "architecture" },
+      { title: "os & sys Module", slug: "stdlib-os" },
+      { title: "time & Clock Module", slug: "stdlib-time" },
+      { title: "json & Serialization", slug: "stdlib-json" },
+      { title: "regex & Pattern Engine", slug: "stdlib-regex" },
     ],
   },
 ];
@@ -91,58 +85,54 @@ export const DOCS_DATA: Record<string, DocSection> = {
     title: "Introduction to NP",
     slug: "introduction",
     category: "Getting Started",
-    description: "Discover the design philosophy, core features, and architecture behind the NP programming language.",
-    badge: "Core",
+    description: "The design philosophy, core architecture, and unique features of the NP compiler.",
+    badge: "Overview",
     content: {
-      lead: "NP is a modern, statically-typed compiled language designed for developers who want the clean readability of Python coupled with the raw execution speed and concurrency model of C and Go.",
+      lead: "NP is a lightweight scripting language designed to combine Python-style clean syntax (indentation-based blocks, comprehensions, and structures) with native C++ execution speeds and automated reference-counted memory management.",
       sections: [
         {
-          id: "why-np",
-          title: "Why NP?",
-          description: "Many languages force developers to choose between ergonomic developer experience and runtime performance. NP bridges this divide by compiling directly to native machine code via LLVM while maintaining elegant, readable syntax.",
+          id: "what-is-np",
+          title: "What is NP?",
+          description: "NP compiles Pythonic .np source files directly into standalone native machine-code binaries using the LLVM C++ API and a precompiled runtime library (libnpruntime.a).",
           points: [
-            "Native Speed: Compiles ahead-of-time (AOT) via LLVM IR into optimized standalone machine binaries.",
-            "Go-Style Concurrency: Built-in 'go' keyword for lightweight goroutines and CSP channels.",
-            "Zero Overhead OOP: Value and pointer receiver methods with direct memory layouts and vtable interface dispatch.",
-            "Rich Standard Library: Production-ready modules for os, crypto, json, time, regex, and sys.",
-            "Modern Toolchain: One unified CLI for building, running, and testing.",
+            "Pythonic Clean Syntax: Indentation-based block structure with colon (:), list/dict comprehensions, and clear keywords.",
+            "Native LLVM Compilation: Generates optimized LLVM Intermediate Representation (IR) with -O3 optimizations.",
+            "Hybrid Type System: Supports both statically typed variables (int, float, string, bool, array, dict) and dynamic variables (var).",
+            "Automatic Memory Management (RAII): Primitive types are stack-allocated, while complex types use reference counting (std::shared_ptr) with zero GC pauses.",
+            "Native Big Integers: Built-in support for 128-bit (int128) and software-implemented 256-bit (int256) signed integers.",
           ],
         },
         {
-          id: "language-at-a-glance",
-          title: "Language at a Glance",
-          description: "Here is a quick demonstration showing structs, methods, goroutines, and channels working seamlessly together in NP.",
+          id: "code-example",
+          title: "A Quick Taste of NP",
+          description: "Here is a complete NP program demonstrating structs, arrays, comprehensions, and functions:",
           code: {
             language: "np",
             filename: "main.np",
-            code: `import "time"
+            code: `# Define a custom struct
+struct Item:
+    string name
+    int price
 
-struct Task {
-    id: int
-    name: string
-}
+# Function returning a computed value
+fn calculate_total(array items) -> int:
+    int total = 0
+    for item in items:
+        total = total + item.price
+    return total
 
-fn (t Task) execute(out: chan string) {
-    time.sleep(10)
-    out <- "Task " + t.name + " completed!"
-}
+# Main entry point
+Item apple = Item("Apple", 15)
+Item orange = Item("Orange", 25)
 
-fn main() {
-    let ch = make(chan string, 2)
-    let t1 = Task{id: 1, name: "Data Processing"}
-    let t2 = Task{id: 2, name: "Index Optimization"}
+array cart = [apple, orange]
+int total_cost = calculate_total(cart)
 
-    go t1.execute(ch)
-    go t2.execute(ch)
+print("Cart Total:", total_cost)
 
-    print(<-ch)
-    print(<-ch)
-}`,
-          },
-          callout: {
-            type: "tip",
-            title: "Zero Dependencies",
-            text: "Binaries generated by the NP compiler are self-contained native executables with no Python runtime or heavy VM required.",
+# Pythonic list comprehension
+array doubled_prices = [item.price * 2 for item in cart]
+print("Doubled Prices:", doubled_prices)`,
           },
         },
       ],
@@ -150,49 +140,91 @@ fn main() {
   },
 
   installation: {
-    title: "Installation & CLI Toolchain",
+    title: "Installation & Setup Guide",
     slug: "installation",
     category: "Getting Started",
-    description: "How to set up the NP compiler, configure environment variables, and use the unified CLI tool.",
+    description: "Complete step-by-step instructions for running NP via Docker, downloading pre-built binaries, or compiling from source.",
+    badge: "Step-by-Step",
     content: {
-      lead: "The NP toolchain consists of the compiler driver 'np', the LLVM code generator, and the NP runtime library.",
+      lead: "Follow this guide to get NP installed on your machine. You can choose between zero-install Docker, downloading pre-compiled binaries, or building from source.",
       sections: [
         {
-          id: "prerequisites",
-          title: "System Prerequisites",
-          description: "NP compiles to native code via LLVM and clang. Ensure your machine has:",
-          points: [
-            "LLVM & Clang (version 15 or higher)",
-            "GCC or MSVC toolchain for system linking",
-            "C++20 compliant host compiler for building the compiler itself (CMake 3.20+)",
-          ],
+          id: "method-1-docker",
+          title: "Method 1: Zero-Install with Docker (Fastest & Recommended)",
+          description: "The quickest way to run NP without installing LLVM or C++ toolchains on your host machine is using the official Alpine Docker image:",
+          code: {
+            language: "bash",
+            filename: "Terminal (Linux / macOS)",
+            code: `# Run any .np file instantly:
+docker run --rm -it -v "$PWD":/workspace pib21/np-lang:alpine-3.22 my_script.np
+
+# Set up a permanent alias in ~/.bashrc or ~/.zshrc:
+alias np='docker run --rm -it -v "$PWD":/workspace pib21/np-lang:alpine-3.22'
+
+# After aliasing, use np directly:
+np my_script.np
+np build my_script.np`,
+          },
+          callout: {
+            type: "tip",
+            title: "Windows PowerShell Setup",
+            text: "In PowerShell, add this function to your $PROFILE:\nfunction np { docker run --rm -it -v \"${PWD}:/workspace\" pib21/np-lang:alpine-3.22 $args }",
+          },
         },
         {
-          id: "cli-commands",
-          title: "The NP CLI Tool",
-          description: "NP provides an intuitive command-line interface inspired by Go and Cargo.",
+          id: "method-2-binary",
+          title: "Method 2: Pre-compiled Binary (For Language Users)",
+          description: "If you download a pre-built release binary of the np compiler, you DO NOT need LLVM installed. You only need a standard C++ linker (g++ or clang) to link the final executable.",
+          points: [
+            "Ubuntu / Debian / WSL: sudo apt-get update && sudo apt-get install -y build-essential",
+            "Alpine Linux: apk add build-base",
+            "macOS: xcode-select --install",
+            "Windows: MinGW-w64 (GCC) or WSL2",
+          ],
           code: {
             language: "bash",
             filename: "Terminal",
-            code: `# Build an executable binary
-np build main.np -o myapp
+            code: `# 1. Download the latest np binary from GitHub Releases
+curl -L -o np https://github.com/peeb01/np-compiler/releases/latest/download/np-linux-x86_64
 
-# Build and run immediately
-np run main.np
+# 2. Make it executable and place in PATH
+chmod +x np
+sudo mv np /usr/local/bin/
 
-# Build with optimization levels (O1, O2, O3)
-np build main.np -O3 -o myapp-release
+# 3. Verify installation
+np --version`,
+          },
+        },
+        {
+          id: "method-3-source",
+          title: "Method 3: Build from Source (For Compiler Developers)",
+          description: "If you want to contribute to the compiler or build the C++ codebase directly, you will need LLVM 18+ development headers and a C++17 compiler:",
+          points: [
+            "Install Dependencies (Ubuntu/Debian): sudo apt-get install -y build-essential llvm-dev cmake git",
+            "Install Dependencies (Alpine): apk add build-base llvm-dev llvm-static cmake git",
+            "Install Dependencies (macOS): brew install llvm gcc cmake git",
+          ],
+          code: {
+            language: "bash",
+            filename: "Terminal",
+            code: `# 1. Clone the repository
+git clone https://github.com/peeb01/np-compiler.git
+cd np-compiler
 
-# Emit LLVM IR for inspection
-np build main.np --emit-llvm -o myapp.ll
+# 2. Build using Make:
+make re
 
-# Run test suite
-np test ./tests/...`,
+# Or build using CMake:
+cmake -B build
+cmake --build build
+
+# 3. Test the built executable:
+./np tests/basic.np`,
           },
           callout: {
             type: "info",
-            title: "Cross Compilation",
-            text: "Because NP utilizes LLVM, you can target x86_64, aarch64 (ARM64), and WebAssembly by passing the --target flag.",
+            title: "Runtime Library Included",
+            text: "The precompiled static runtime library (runtime/libnpruntime.a) is automatically linked when you build executables.",
           },
         },
       ],
@@ -200,97 +232,113 @@ np test ./tests/...`,
   },
 
   "hello-world": {
-    title: "Hello World & Pipeline",
+    title: "Hello World & CLI Commands",
     slug: "hello-world",
     category: "Getting Started",
-    description: "Writing your first NP program and understanding how the compilation pipeline transforms code into native binary.",
+    description: "Write your first NP script and learn the two primary execution modes: Run and Build.",
     content: {
-      lead: "Every journey begins with a clean program. Let's write, compile, and run your first NP program.",
+      lead: "Let's write a simple program and explore the compiler command-line options.",
       sections: [
         {
-          id: "first-code",
-          title: "Writing Hello World",
-          description: "Create a new file named `hello.np` with the following content:",
+          id: "first-program",
+          title: "Writing hello.np",
+          description: "Create a file named hello.np with the following code:",
           code: {
             language: "np",
             filename: "hello.np",
-            code: `fn main() {
-    let message: string = "Hello, NP World!"
-    print(message)
-}`,
+            code: `# Hello World in NP
+string message = "Hello, NP Compiler!"
+print(message)
+
+int a = 10
+int b = 20
+print("Calculation 10 + 20 =", a + b)`,
           },
         },
         {
-          id: "run-it",
-          title: "Compiling and Executing",
-          description: "Run the program with one command:",
+          id: "two-modes",
+          title: "Execution Modes: Run vs Build",
+          description: "NP supports two distinct workflows:",
           code: {
             language: "bash",
             filename: "Terminal",
-            code: `$ np run hello.np
-Hello, NP World!`,
+            code: `# 1. Scripting / Run Mode:
+# Compiles to a temporary file, executes immediately, and cleans up.
+np hello.np
+
+# 2. Ahead-Of-Time (AOT) Build Mode:
+# Compiles directly to a standalone native executable (app.out).
+np build hello.np
+
+# Run the generated binary:
+./app.out`,
           },
-        },
-        {
-          id: "compilation-stages",
-          title: "What Happens Under The Hood?",
-          description: "The NP compiler executes four distinct stages:",
-          points: [
-            "1. Lexing & AST Parsing: Tokenizes input and builds an abstract syntax tree with full source location tracking.",
-            "2. Type Checking & Symbol Resolution: Validates static types, method signatures, and scope boundaries.",
-            "3. LLVM IR Generation: Translates high-level NP semantics into optimized intermediate representation.",
-            "4. Native Code Generation: Clang/LLVM links runtime primitives into an ELF, Mach-O, or PE binary.",
-          ],
+          callout: {
+            type: "tip",
+            title: "Standalone Binaries",
+            text: "Binaries produced by 'np build' do not require Python, Node.js, or any virtual machine to run on target systems.",
+          },
         },
       ],
     },
   },
 
   basics: {
-    title: "Variables & Primitive Types",
+    title: "Variables & Type System",
     slug: "basics",
-    category: "Language Basics",
-    description: "Type system, immutable and mutable bindings, and primitive data types in NP.",
+    category: "Language Fundamentals",
+    description: "Primitive types, dynamic variables, arithmetic, comparisons, and boolean logic.",
     content: {
-      lead: "NP is statically typed with powerful type inference, allowing you to write terse code while enjoying strict compile-time safety.",
+      lead: "NP supports both strictly typed variables and dynamically typed variables with automatic memory management.",
       sections: [
         {
-          id: "primitive-types",
-          title: "Builtin Primitive Types",
-          description: "NP provides standard fixed-width numeric and string primitives:",
+          id: "primitives",
+          title: "Primitive Types",
+          description: "Primitive types are stack-allocated and mapped directly to C++ primitives:",
           points: [
-            "int: Signed 64-bit integer",
-            "float: 64-bit IEEE 754 floating point number",
-            "bool: Boolean value (true or false)",
-            "string: UTF-8 encoded string slice",
-            "void: Unit return type for functions",
+            "int, int32, int64: 64-bit signed integer (default: 0)",
+            "float, float32, float64: 64-bit double-precision float (default: 0.0)",
+            "bool: Boolean flag (true or false)",
+            "string: UTF-8 dynamic string (std::string wrapper)",
+            "array: Dynamic heap-allocated list (std::vector)",
+            "dict: Key-value associative mapping (std::map)",
           ],
-        },
-        {
-          id: "variable-declaration",
-          title: "Variable Declarations",
-          description: "Use 'let' for mutable variables and 'const' for compile-time constants.",
           code: {
             language: "np",
-            filename: "variables.np",
-            code: `fn main() {
-    // Explicit type declaration
-    let count: int = 42
-    let ratio: float = 3.14159
-    let is_ready: bool = true
+            filename: "types.np",
+            code: `# Static variable declarations
+int age = 25
+float pi = 3.14159
+string username = "Alice"
+bool is_admin = true
 
-    // Type inference (compiler infers 'string')
-    let greeting = "Welcome to NP"
+# Dynamic variable declaration (var)
+var dynamic_val = 100
+dynamic_val = "Now holding a string!"
+dynamic_val = [1, 2, 3]
 
-    // Mutable reassignment
-    count = count + 1
+print(username, "is", age, "years old")`,
+          },
+        },
+        {
+          id: "operators",
+          title: "Operators & Math",
+          description: "NP supports standard arithmetic, modulo, power (^), and logical operators:",
+          code: {
+            language: "np",
+            filename: "operators.np",
+            code: `int a = 10
+int b = 3
 
-    // Constant declaration
-    const MAX_BUFFER: int = 1024
-    
-    print(greeting)
-    print(count)
-}`,
+print("Addition:", a + b)       # 13
+print("Division:", a / b)       # 3 (integer division)
+print("Modulo:", a % b)         # 1
+print("Power:", 2 ^ 3)          # 8
+
+# Logical operators: and, or, not
+bool x = true
+bool y = false
+print(x and not y)              # true`,
           },
         },
       ],
@@ -300,54 +348,50 @@ Hello, NP World!`,
   "control-flow": {
     title: "Control Flow & Loops",
     slug: "control-flow",
-    category: "Language Basics",
-    description: "Branching with if/else, iterative loops with while and for-in, and loop control statements.",
+    category: "Language Fundamentals",
+    description: "Indentation-based conditionals (if/elif/else), while loops, and range/collection for-loops.",
     content: {
-      lead: "NP provides straightforward control flow structures without unnecessary syntax clutter.",
+      lead: "Blocks in NP use Python-style 4-space indentation terminated by a colon (:).",
       sections: [
         {
-          id: "conditional-branching",
-          title: "If / Else Statements",
-          description: "Conditions do not require surrounding parentheses:",
+          id: "conditionals",
+          title: "Conditionals (if, elif, else)",
           code: {
             language: "np",
-            filename: "conditions.np",
-            code: `let score = 85
+            filename: "grades.np",
+            code: `int score = 85
 
-if score >= 90 {
+if score >= 90:
     print("Grade: A")
-} else if score >= 80 {
+elif score >= 80:
     print("Grade: B")
-} else {
+elif score >= 70:
     print("Grade: C")
-}`,
+else:
+    print("Grade: F")`,
           },
         },
         {
           id: "loops",
-          title: "While and For-In Loops",
-          description: "Use while for condition-based repetition, or for-in to iterate ranges and collections:",
+          title: "Loops: while and for",
+          description: "Use while for conditional looping, or for for ranges and arrays:",
           code: {
             language: "np",
             filename: "loops.np",
-            code: `// While loop
-let i = 0
-while i < 5 {
-    if i == 2 {
-        i = i + 1
-        continue
-    }
-    print(i)
-    i = i + 1
-}
+            code: `# While loop
+int count = 1
+while count <= 3:
+    print("Count:", count)
+    count = count + 1
 
-// For-in range loop
-for item in 0..10 {
-    if item > 7 {
-        break
-    }
-    print(item)
-}`,
+# Range-based for loop
+for i in range(0, 4):
+    print("Range Index:", i)
+
+# Collection iterator loop
+array fruits = ["Apple", "Banana", "Cherry"]
+for item in fruits:
+    print("Fruit:", item)`,
           },
         },
       ],
@@ -355,55 +399,74 @@ for item in 0..10 {
   },
 
   functions: {
-    title: "Functions & Returns",
+    title: "Functions & Parameters",
     slug: "functions",
-    category: "Language Basics",
-    description: "First-class functions, multiple return values, named returns, and lambda closures.",
+    category: "Language Fundamentals",
+    description: "Declaring functions with fn, argument types, return types, and default values.",
     content: {
-      lead: "Functions in NP are first-class citizens: they can take multiple arguments, return multiple values, and be stored in variables or passed as closures.",
+      lead: "Functions are defined using the fn keyword followed by parameter signatures and an optional return type arrow (->).",
       sections: [
         {
-          id: "multiple-returns",
-          title: "Multiple Return Values",
-          description: "Returning tuples or results with error status is a first-class feature in NP:",
+          id: "func-syntax",
+          title: "Defining Functions",
           code: {
             language: "np",
-            filename: "multi_return.np",
-            code: `fn divide(numerator: int, denominator: int) -> (int, bool) {
-    if denominator == 0 {
-        return (0, false)
-    }
-    return (numerator / denominator, true)
-}
+            filename: "functions.np",
+            code: `# Function with typed arguments and return type
+fn add(int x, int y) -> int:
+    return x + y
 
-fn main() {
-    let (result, ok) = divide(10, 2)
-    if ok {
-        print("Success:")
-        print(result)
-    } else {
-        print("Division by zero error")
-    }
-}`,
+# Function without return value (void)
+fn greet(string name):
+    print("Hello,", name)
+
+# Recursive function
+fn factorial(int n) -> int:
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+greet("Developer")
+int sum = add(15, 25)
+print("15 + 25 =", sum)
+print("Factorial of 5 =", factorial(5))`,
           },
         },
+      ],
+    },
+  },
+
+  collections: {
+    title: "Arrays & Dictionaries",
+    slug: "collections",
+    category: "Data Structures & OOP",
+    description: "Heap-allocated dynamic arrays and associative dictionaries with automatic memory management.",
+    content: {
+      lead: "Arrays and Dictionaries are dynamic containers backed by C++ std::vector and std::map, managed with automatic reference counting.",
+      sections: [
         {
-          id: "first-class-lambdas",
-          title: "First-Class Functions & Closures",
-          description: "Pass functions as parameters to create higher-order pipelines:",
+          id: "arrays-dicts",
+          title: "Creating & Accessing Collections",
           code: {
             language: "np",
-            filename: "closure.np",
-            code: `fn make_adder(x: int) -> fn(int) -> int {
-    return fn(y: int) -> int {
-        return x + y
-    }
-}
+            filename: "collections.np",
+            code: `# Dynamic array
+array numbers = [10, 20, 30, 40]
+numbers.append(50)
+print("First element:", numbers[0])
+print("Array length:", len(numbers))
 
-fn main() {
-    let addTen = make_adder(10)
-    print(addTen(5))  // Outputs: 15
-}`,
+# Associative dictionary
+dict user = {
+    "name": "Bob",
+    "role": "Engineer",
+    "active": true
+}
+print("User Name:", user["name"])
+
+# Updating dictionary
+user["role"] = "Lead Architect"
+print("Updated Role:", user["role"])`,
           },
         },
       ],
@@ -411,223 +474,186 @@ fn main() {
   },
 
   structs: {
-    title: "Structs & Data Modeling",
+    title: "Custom Structs",
     slug: "structs",
-    category: "Object-Oriented Programming",
-    description: "Defining custom data types, instantiating structs, and memory layout in NP.",
+    category: "Data Structures & OOP",
+    description: "Defining custom data models with named fields, automatic constructors, and dot-notation access.",
     content: {
-      lead: "Structs are the primary vehicle for custom data representation in NP. They are packed efficiently in memory with deterministic C-compatible layout.",
+      lead: "Structs provide structured data modeling. The NP compiler automatically generates constructors and enables dot-notation field access.",
       sections: [
         {
-          id: "defining-structs",
-          title: "Struct Definition & Initialization",
-          description: "Declare structured types with named fields and instantiate them with field initializers:",
+          id: "declaring-structs",
+          title: "Declaring and Instantiating Structs",
           code: {
             language: "np",
             filename: "structs.np",
-            code: `struct Point {
-    x: float
-    y: float
-}
+            code: `# Define a struct with typed fields
+struct Point:
+    float x
+    float y
 
-struct User {
-    id: int
-    username: string
-    active: bool
-    location: Point
-}
+struct User:
+    int id
+    string name
+    bool is_active
+    Point location
 
-fn main() {
-    let p = Point{x: 10.5, y: 20.0}
-    let u = User{
-        id: 1001,
-        username: "alex",
-        active: true,
-        location: p,
-    }
+# Automatic constructor instantiation
+Point pt = Point(10.5, 20.0)
+User u = User(1001, "Alice", true, pt)
 
-    print(u.username)
-    print(u.location.x)
-}`,
-          },
-          callout: {
-            type: "info",
-            title: "Memory Layout",
-            text: "NP structs do not have hidden object headers or virtual table pointers unless cast to an interface, ensuring maximum cache locality.",
+# Access fields via dot-notation
+print("User ID:", u.id)
+print("User Name:", u.name)
+print("Location X:", u.location.x)
+
+# Mutating struct fields
+u.name = "Alice Wonder"
+print("Updated Name:", u.name)`,
           },
         },
       ],
     },
   },
 
-  methods: {
-    title: "Methods & Receivers",
-    slug: "methods",
-    category: "Object-Oriented Programming",
-    description: "Associating functions with types via value receivers and mutating pointer receivers.",
+  comprehensions: {
+    title: "Pythonic Comprehensions",
+    slug: "comprehensions",
+    category: "Data Structures & OOP",
+    description: "List and dictionary comprehensions for expressive mapping and filtering in a single line.",
     content: {
-      lead: "NP follows the elegant receiver pattern: methods are declared with an explicit receiver preceding the function name.",
+      lead: "Comprehensions are compiled into highly optimized loops directly at the LLVM IR level.",
       sections: [
         {
-          id: "receiver-syntax",
-          title: "Value and Pointer Receivers",
-          description: "Use value receivers for read-only access and mutating receivers when altering fields:",
+          id: "list-comp",
+          title: "List & Dict Comprehensions",
           code: {
             language: "np",
-            filename: "methods.np",
-            code: `struct Counter {
-    value: int
-}
+            filename: "comprehensions.np",
+            code: `# Basic List Comprehension
+array numbers = [x * 2 for x in range(1, 6)]
+print("Doubled:", numbers)  # [2, 4, 6, 8, 10]
 
-// Read-only value receiver
-fn (c Counter) get_val() -> int {
-    return c.value
-}
+# List Comprehension with Filter condition
+array evens = [x for x in numbers if x > 5]
+print("Filtered > 5:", evens)  # [6, 8, 10]
 
-// Mutating receiver (modifies the underlying instance)
-fn (mut c Counter) increment(amount: int) {
-    c.value = c.value + amount
-}
-
-fn main() {
-    let mut ctr = Counter{value: 0}
-    ctr.increment(5)
-    ctr.increment(10)
-    print(ctr.get_val()) // Outputs: 15
-}`,
+# Dictionary Comprehension
+dict squares = {x: x * x for x in range(1, 5)}
+print("Squares Dict:", squares)`,
           },
         },
       ],
     },
   },
 
-  interfaces: {
-    title: "Interfaces & Polymorphism",
-    slug: "interfaces",
-    category: "Object-Oriented Programming",
-    description: "Structural typing and dynamic dispatch using NP interface contracts.",
+  modules: {
+    title: "Modules & Import System",
+    slug: "modules",
+    category: "Advanced Features",
+    description: "Organizing code across files and packages with clean imports and grouped parentheses.",
     content: {
-      lead: "NP interfaces specify behavior through method sets. Types implement interfaces implicitly—no 'implements' keyword needed.",
+      lead: "NP supports package modularity with clean paths, aliases, and grouped imports without requiring .np file extensions.",
       sections: [
         {
-          id: "interface-definition",
-          title: "Defining & Implementing Interfaces",
-          description: "Any type that implements all required methods satisfies the interface automatically:",
+          id: "imports",
+          title: "Using the Import System",
           code: {
             language: "np",
-            filename: "interfaces.np",
-            code: `interface Shape {
-    fn area() -> float
-    fn name() -> string
-}
+            filename: "main.np",
+            code: `# Import single standard module
+import "time"
 
-struct Circle {
-    radius: float
-}
+# Grouped imports
+import (
+    "json"
+    "sys"
+    mh "./math_helper"
+)
 
-fn (c Circle) area() -> float {
-    return 3.14159 * c.radius * c.radius
-}
-
-fn (c Circle) name() -> string {
-    return "Circle"
-}
-
-fn print_info(s: Shape) {
-    print(s.name())
-    print(s.area())
-}
-
-fn main() {
-    let c = Circle{radius: 5.0}
-    print_info(c) // Implicit dynamic polymorphism
-}`,
-          },
-          callout: {
-            type: "tip",
-            title: "Fat Pointer VTables",
-            text: "Interface instances in NP are fat pointers containing a data pointer and an LLVM vtable pointer for near-zero dispatch overhead.",
+# Use imported package functions
+print("CPU Architecture:", sys.arch())
+print("Time now:", time.now_ms())`,
           },
         },
       ],
     },
   },
 
-  concurrency: {
-    title: "Goroutines & Concurrency",
-    slug: "concurrency",
-    category: "Concurrency & Runtime",
-    description: "Lightweight concurrent routines spawned with the 'go' keyword.",
+  "big-integers": {
+    title: "128 & 256-Bit Integers",
+    slug: "big-integers",
+    category: "Advanced Features",
+    description: "Built-in hardware and software large integers for cryptography and large-scale arithmetic.",
     content: {
-      lead: "NP brings Go's revolutionary concurrency model to the LLVM native ecosystem. Launch thousands of concurrent tasks with minimal stack footprints.",
+      lead: "NP provides native support for int128 and int256 with full arithmetic operator support.",
       sections: [
         {
-          id: "go-keyword",
-          title: "Spawning Goroutines",
-          description: "Prefix any function call with 'go' to schedule it concurrently on the runtime thread pool:",
+          id: "bigint-usage",
+          title: "Working with int128 and int256",
           code: {
             language: "np",
-            filename: "concurrency.np",
-            code: `import "time"
+            filename: "bigint.np",
+            code: `# 128-bit integer (maps to GCC __int128)
+int128 huge_num = 170141183460469231731687303715884105727
 
-fn worker(id: int) {
-    print("Worker running: ")
-    print(id)
-    time.sleep(50)
-    print("Worker finished")
-}
+# 256-bit software integer
+int256 crypto_val = 115792089237316195423570985008687907853269984665640564039457584007913129639935
 
-fn main() {
-    // Spawns 3 lightweight concurrent routines
-    go worker(1)
-    go worker(2)
-    go worker(3)
-
-    time.sleep(100)
-    print("All tasks scheduled.")
-}`,
+print("128-bit value:", huge_num)
+print("256-bit value:", crypto_val)`,
           },
         },
       ],
     },
   },
 
-  channels: {
-    title: "Channels & Synchronization",
-    slug: "channels",
-    category: "Concurrency & Runtime",
-    description: "Communicating Sequential Processes (CSP) via typed FIFO channels.",
+  exceptions: {
+    title: "Exception Handling",
+    slug: "exceptions",
+    category: "Advanced Features",
+    description: "Catching runtime errors and managing failure conditions with try and except.",
     content: {
-      lead: "Do not communicate by sharing memory; instead, share memory by communicating. NP channels provide safe, lock-free communication between goroutines.",
+      lead: "Handle exceptional runtime scenarios gracefully without crashing your program.",
       sections: [
         {
-          id: "channel-operations",
-          title: "Making & Using Channels",
-          description: "Channels can be unbuffered or buffered, and use the arrow operator '<-' for sending and receiving:",
+          id: "try-except",
+          title: "Try / Except Blocks",
           code: {
             language: "np",
-            filename: "channels.np",
-            code: `fn compute(out: chan int) {
-    let sum = 0
-    let i = 1
-    while i <= 100 {
-        sum = sum + i
-        i = i + 1
-    }
-    out <- sum // Send value into channel
-}
+            filename: "exceptions.np",
+            code: `try:
+    int a = 10
+    int b = 0
+    int c = a / b
+    print("Result:", c)
+except:
+    print("Error caught: Division by zero handled safely!")
 
-fn main() {
-    // Create a buffered channel with capacity 1
-    let result_ch = make(chan int, 1)
-
-    go compute(result_ch)
-
-    let total = <-result_ch // Blocking receive
-    print("Computed total:")
-    print(total)
-}`,
+print("Program continues executing normally.")`,
           },
+        },
+      ],
+    },
+  },
+
+  architecture: {
+    title: "LLVM Backend Architecture",
+    slug: "architecture",
+    category: "Advanced Features",
+    description: "How the NP compiler lowers AST to LLVM IR, applies -O3 optimization, and links with libnpruntime.a.",
+    content: {
+      lead: "NP uses the official LLVM C++ API to compile human-readable source code into optimized native machine code.",
+      sections: [
+        {
+          id: "pipeline",
+          title: "Compilation Pipeline",
+          points: [
+            "1. Lexer (core/lexer.cpp): Scans source code into tokens with source position tracking.",
+            "2. AST Parser (core/parser.cpp): Hand-written recursive descent parser building an Abstract Syntax Tree.",
+            "3. LLVM CodeGen (core/llvm_codegen.cpp): Generates LLVM SSA IR with function optimization passes (-O3).",
+            "4. Target Emission & Linker: Emits temporary object file (.o) and links with runtime/libnpruntime.a using g++.",
+          ],
         },
       ],
     },
@@ -637,159 +663,54 @@ fn main() {
     title: "Standard Library Overview",
     slug: "stdlib",
     category: "Standard Library",
-    description: "Comprehensive guide to NP's batteries-included standard library packages.",
+    description: "Built-in utility functions, file operations, time measurement, and data formatting.",
     content: {
-      lead: "NP ships with a robust standard library providing essential system, cryptographic, serialization, and string utilities out of the box.",
+      lead: "NP ships with standard library modules linked directly with the compiler runtime.",
       sections: [
         {
-          id: "included-packages",
-          title: "Standard Packages at a Glance",
+          id: "builtin-modules",
+          title: "Built-in Modules",
           points: [
-            "os: File I/O, directory traversal, system paths, environment variables",
-            "crypto: SHA256, MD5, cryptographic hashing and digests",
-            "json: High performance JSON encoding, decoding, and value traversal",
-            "time: Monotonic clocks, wall clocks, timers, and precision benchmarking",
-            "regex: High performance regular expression pattern matching and capture",
-            "sys: Hardware inspection, CPU core counts, platform identification",
+            "os: File I/O, file existence checks, and process environment variables",
+            "sys: CPU core inspection, platform architecture, OS identification",
+            "time: High-resolution monotonic timers, sleep utilities, and timestamps",
+            "json: Fast JSON parsing and string serialization",
+            "regex: Regular expression pattern testing and text matching",
           ],
-        },
-        {
-          id: "importing",
-          title: "Importing Modules",
-          code: {
-            language: "np",
-            filename: "modules.np",
-            code: `import "os"
-import "crypto"
-import "json"
-import "time"
-
-fn main() {
-    let now = time.now_ms()
-    let hash = crypto.sha256("antigravity")
-    print(hash)
-}`,
-          },
         },
       ],
     },
   },
 
   "stdlib-os": {
-    title: "os & sys Packages",
+    title: "os & sys Module",
     slug: "stdlib-os",
     category: "Standard Library",
-    description: "File manipulation, process management, environment variables, and hardware detection.",
+    description: "File manipulation, process management, and CPU hardware inspection.",
     content: {
-      lead: "The os and sys modules allow NP programs to interact natively with POSIX and Windows operating system interfaces.",
+      lead: "The os and sys modules allow interaction with the operating system and system hardware.",
       sections: [
         {
-          id: "file-io",
-          title: "File Operations with os",
-          code: {
-            language: "np",
-            filename: "file_io.np",
-            code: `import "os"
-
-fn main() {
-    // Write text to file
-    let path = "output.txt"
-    os.write_file(path, "Build with NP Native LLVM\\n")
-
-    // Check file existence
-    if os.exists(path) {
-        let content = os.read_file(path)
-        print("Read content:")
-        print(content)
-    }
-
-    // Read environment variable
-    let user = os.getenv("USER")
-    print(user)
-}`,
-          },
-        },
-        {
-          id: "sys-package",
-          title: "System Hardware & Platform",
+          id: "os-examples",
+          title: "File Operations & System Info",
           code: {
             language: "np",
             filename: "system.np",
-            code: `import "sys"
+            code: `import "os"
+import "sys"
 
-fn main() {
-    let cores = sys.num_cpus()
-    let arch = sys.arch()
-    let os_name = sys.os_name()
+# Inspect hardware
+print("Platform OS:", sys.os_name())
+print("CPU Architecture:", sys.arch())
+print("CPU Cores:", sys.num_cpus())
 
-    print("Platform: " + os_name + "/" + arch)
-    print("CPU Cores: ")
-    print(cores)
-}`,
-          },
-        },
-      ],
-    },
-  },
+# File operations
+string filename = "notes.txt"
+os.write_file(filename, "Compiled natively with NP\\n")
 
-  "stdlib-crypto": {
-    title: "crypto Package",
-    slug: "stdlib-crypto",
-    category: "Standard Library",
-    description: "Cryptographic hashing algorithms including SHA256 and MD5 for data integrity and authentication.",
-    content: {
-      lead: "The crypto package provides secure, hardware-accelerated implementations of industry-standard hash functions.",
-      sections: [
-        {
-          id: "sha256-md5",
-          title: "Computing Digests",
-          code: {
-            language: "np",
-            filename: "hashing.np",
-            code: `import "crypto"
-
-fn main() {
-    let data = "secure-payload-token"
-
-    let sha_digest = crypto.sha256(data)
-    let md5_digest = crypto.md5(data)
-
-    print("SHA256: " + sha_digest)
-    print("MD5:    " + md5_digest)
-}`,
-          },
-        },
-      ],
-    },
-  },
-
-  "stdlib-json": {
-    title: "json Package",
-    slug: "stdlib-json",
-    category: "Standard Library",
-    description: "High speed JSON serialization and parsing without external dependencies.",
-    content: {
-      lead: "Serialize and parse JSON records directly within NP programs for API integrations and configuration files.",
-      sections: [
-        {
-          id: "json-encode-decode",
-          title: "JSON Encoding & Parsing",
-          code: {
-            language: "np",
-            filename: "json_test.np",
-            code: `import "json"
-
-fn main() {
-    let payload = "{\\"service\\":\\"auth\\",\\"port\\":8080,\\"active\\":true}"
-    
-    let parsed = json.parse(payload)
-    let port = json.get_int(parsed, "port")
-    let service = json.get_string(parsed, "service")
-
-    print("Service: " + service)
-    print("Port: ")
-    print(port)
-}`,
+if os.exists(filename):
+    string content = os.read_file(filename)
+    print("File Content:", content)`,
           },
         },
       ],
@@ -797,31 +718,55 @@ fn main() {
   },
 
   "stdlib-time": {
-    title: "time Package",
+    title: "time & Clock Module",
     slug: "stdlib-time",
     category: "Standard Library",
-    description: "High resolution timers, sleep durations, and microsecond performance benchmarking.",
+    description: "High-resolution monotonic timers and execution benchmarking.",
     content: {
-      lead: "Measure runtime latency with high-precision monotonic clocks and manage sleep intervals.",
+      lead: "Measure runtime latency and manage sleep durations.",
       sections: [
         {
-          id: "benchmarking",
-          title: "Measuring Latency & Sleeping",
+          id: "time-examples",
+          title: "Measuring Execution Time",
           code: {
             language: "np",
-            filename: "benchmark.np",
+            filename: "timer.np",
             code: `import "time"
 
-fn main() {
-    let start = time.now_ms()
+int start = time.now_ms()
 
-    // Simulate work
-    time.sleep(25)
+# Simulate work
+time.sleep(20)
 
-    let elapsed = time.now_ms() - start
-    print("Operation elapsed time (ms):")
-    print(elapsed)
-}`,
+int elapsed = time.now_ms() - start
+print("Elapsed milliseconds:", elapsed)`,
+          },
+        },
+      ],
+    },
+  },
+
+  "stdlib-json": {
+    title: "json & Serialization",
+    slug: "stdlib-json",
+    category: "Standard Library",
+    description: "JSON parsing and data serialization.",
+    content: {
+      lead: "Easily parse JSON strings and serialize dictionary objects.",
+      sections: [
+        {
+          id: "json-examples",
+          title: "Parsing & Accessing JSON",
+          code: {
+            language: "np",
+            filename: "json_demo.np",
+            code: `import "json"
+
+string payload = "{\\"name\\": \\"NP\\", \\"version\\": \\"0.2.0\\"}"
+
+dict data = json.parse(payload)
+print("Language:", data["name"])
+print("Version:", data["version"])`,
           },
         },
       ],
@@ -829,115 +774,28 @@ fn main() {
   },
 
   "stdlib-regex": {
-    title: "regex Package",
+    title: "regex & Pattern Engine",
     slug: "stdlib-regex",
     category: "Standard Library",
-    description: "Regular expression matching, submatch extraction, and string replacements.",
+    description: "Regular expression pattern validation and string matching.",
     content: {
-      lead: "Fast pattern matching powered by the NP regex engine.",
+      lead: "Fast pattern matching for data validation.",
       sections: [
         {
-          id: "regex-matching",
-          title: "Pattern Testing & Match Extraction",
+          id: "regex-examples",
+          title: "Pattern Testing",
           code: {
             language: "np",
-            filename: "regex.np",
+            filename: "regex_demo.np",
             code: `import "regex"
 
-fn main() {
-    let email = "dev@example.com"
-    let pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+string email = "test@example.com"
+string pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
 
-    if regex.matches(pattern, email) {
-        print("Valid email address!")
-    } else {
-        print("Invalid email format.")
-    }
-}`,
-          },
-        },
-      ],
-    },
-  },
-
-  generics: {
-    title: "Generics & Type Parameters",
-    slug: "generics",
-    category: "Advanced Features",
-    description: "Writing reusable, type-safe functions and data structures without runtime penalty.",
-    content: {
-      lead: "NP generics enable polymorphic functions and container structures that are monomorphized at compile time for zero abstraction cost.",
-      sections: [
-        {
-          id: "generic-functions",
-          title: "Generic Function Signatures",
-          description: "Declare type parameters in square brackets:",
-          code: {
-            language: "np",
-            filename: "generics.np",
-            code: `fn identity[T](val: T) -> T {
-    return val
-}
-
-fn pair_first[A, B](first: A, second: B) -> A {
-    return first
-}
-
-fn main() {
-    let x = identity[int](42)
-    let s = identity[string]("polymorphic")
-    let p = pair_first[string, int]("NP", 2026)
-
-    print(x)
-    print(s)
-    print(p)
-}`,
-          },
-          callout: {
-            type: "tip",
-            title: "Monomorphization",
-            text: "Like C++ templates and Rust generics, NP instantiates specialized LLVM code for each concrete type, producing optimal native assembly.",
-          },
-        },
-      ],
-    },
-  },
-
-  architecture: {
-    title: "LLVM Compiler Architecture",
-    slug: "architecture",
-    category: "Advanced Features",
-    description: "Deep dive into the lexer, parser, semantic analyzer, and LLVM intermediate representation pipeline.",
-    content: {
-      lead: "Explore how NP compiles human-readable code into blazing fast native machine instructions.",
-      sections: [
-        {
-          id: "pipeline-breakdown",
-          title: "The Four Core Stages",
-          points: [
-            "Front-End: Tokenizer and recursive descent parser construct typed Abstract Syntax Trees (AST).",
-            "Semantic Pass: Type inference, type checking, method table binding, and closure capture analysis.",
-            "Middle-End: LLVM IR Builder converts AST nodes into Static Single Assignment (SSA) form.",
-            "Back-End & Linking: LLVM optimization passes (-O1, -O2, -O3), target machine code generation, and linkage with libnp_runtime.",
-          ],
-        },
-        {
-          id: "llvm-ir-sample",
-          title: "Sample Generated LLVM IR",
-          description: "When compiling a simple addition function, NP generates clean LLVM IR:",
-          code: {
-            language: "llvm",
-            filename: "add.ll",
-            code: `; ModuleID = 'add.np'
-source_filename = "add.np"
-target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-unknown-linux-gnu"
-
-define i64 @add(i64 %a, i64 %b) {
-entry:
-  %res = add nsw i64 %a, %b
-  ret i64 %res
-}`,
+if regex.matches(pattern, email):
+    print("Email is valid!")
+else:
+    print("Invalid email format.")`,
           },
         },
       ],

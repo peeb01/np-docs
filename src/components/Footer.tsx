@@ -66,26 +66,26 @@ export function Footer() {
 
           {/* Pillars Links */}
           <div className="space-y-3">
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Core Pillars</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono">Advanced Features</p>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/docs/concurrency" className="hover:text-blue-600 transition-colors">
-                  Goroutines & Tasks
+                <Link href="/docs/collections" className="hover:text-blue-600 transition-colors">
+                  Arrays &amp; Dictionaries
                 </Link>
               </li>
               <li>
-                <Link href="/docs/channels" className="hover:text-blue-600 transition-colors">
-                  Channels & Sync
+                <Link href="/docs/structs" className="hover:text-blue-600 transition-colors">
+                  Custom Structs
                 </Link>
               </li>
               <li>
-                <Link href="/docs/interfaces" className="hover:text-blue-600 transition-colors">
-                  Interfaces & Polymorphism
+                <Link href="/docs/comprehensions" className="hover:text-blue-600 transition-colors">
+                  Pythonic Comprehensions
                 </Link>
               </li>
               <li>
-                <Link href="/docs/generics" className="hover:text-blue-600 transition-colors">
-                  Parametric Generics
+                <Link href="/docs/modules" className="hover:text-blue-600 transition-colors">
+                  Modules &amp; Imports
                 </Link>
               </li>
               <li>

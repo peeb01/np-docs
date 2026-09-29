@@ -6,9 +6,6 @@ import {
   CheckCircle,
   Cpu,
   Binary,
-  ArrowRight,
-  Sparkles,
-  Zap,
   Activity,
   ChevronRight,
 } from "lucide-react";
@@ -20,7 +17,6 @@ interface PipelineStage {
   status: string;
   description: string;
   icon: typeof FileCode2;
-  color: string;
   snippet: {
     title: string;
     language: string;
@@ -32,87 +28,89 @@ const STAGES: PipelineStage[] = [
   {
     id: "source",
     name: "01. Source Code",
-    badge: "Syntax Parser",
+    badge: "Lexer & Parser",
     status: "Parsed",
-    description: "Tokenizes high-level NP syntax with source span mapping and error recovery.",
+    description: "Scans Pythonic .np indentation blocks and constructs a typed Abstract Syntax Tree (AST).",
     icon: FileCode2,
-    color: "blue",
     snippet: {
-      title: "main.np",
+      title: "main.np (Pythonic Syntax)",
       language: "np",
-      content: `import "time"
+      content: `# Define typed struct
+struct User:
+    string name
+    int age
 
-fn worker(id: int, out: chan string) {
-    time.sleep(10)
-    out <- "Task " + string(id) + " complete"
-}
+# Function returning typed value
+fn create_user(string n, int a) -> User:
+    return User(n, a)
 
-fn main() {
-    let ch = make(chan string, 2)
-    go worker(1, ch)
-    go worker(2, ch)
-    print(<-ch)
-}`,
+User u = create_user("Alice", 25)
+print("Welcome:", u.name)
+
+# List comprehension
+array doubled = [x * 2 for x in range(1, 4)]
+print("Result:", doubled)`,
     },
   },
   {
     id: "semantics",
-    name: "02. Semantic Engine",
-    badge: "Type Checker",
+    name: "02. AST & Type Verification",
+    badge: "Semantic Analyzer",
     status: "Verified",
-    description: "Infers types, validates method receiver bindings, and builds dynamic vtables.",
+    description: "Enforces type checking for primitives, validates struct field access, and manages variable scoping.",
     icon: CheckCircle,
-    color: "emerald",
     snippet: {
-      title: "Symbol Resolution & VTables",
+      title: "AST Verification & Scoping Pass",
       language: "text",
-      content: `[PASS 1] Symbol Scope Registration: 4 symbols defined
-[PASS 2] Type Inference: 'ch' inferred as chan(string, capacity=2)
-[PASS 3] Receiver Method Check: 0 mutable conflicts found
-[PASS 4] Dynamic Interface Check: 100% type-safe
-✓ Semantic verification completed in 1.4ms with 0 diagnostics`,
+      content: `[STAGE 1] Lexical tokenization completed: 42 tokens
+[STAGE 2] AST Syntax nodes generated: StructDecl(User), FuncDecl(create_user)
+[STAGE 3] Type checking: Return type matches User struct definition
+[STAGE 4] RAII Memory Management: Reference counts mapped to std::shared_ptr
+✓ 0 type errors, memory verification passed`,
     },
   },
   {
     id: "llvm",
-    name: "03. LLVM SSA Optimizer",
-    badge: "IR Generator",
+    name: "03. LLVM CodeGen (-O3)",
+    badge: "LLVM IR Generator",
     status: "Optimized",
-    description: "Lowers AST to Static Single Assignment LLVM IR with target-specific vectorization.",
+    description: "Lowers AST nodes into LLVM SSA Intermediate Representation with industrial -O3 compiler passes.",
     icon: Cpu,
-    color: "indigo",
     snippet: {
-      title: "Generated LLVM IR (Optimized -O3)",
+      title: "Generated LLVM SSA IR",
       language: "llvm",
       content: `; Module: np_main (Target: x86_64-unknown-linux-gnu)
-define void @np_worker(i64 %id, ptr %out_chan) {
+%struct.User = type { ptr, i64 }
+
+define ptr @create_user(ptr %n, i64 %a) {
 entry:
-  call void @np_runtime_sleep(i64 10)
-  %fmt = call ptr @np_fmt_concat(i64 %id)
-  call void @np_chan_send(ptr %out_chan, ptr %fmt)
-  ret void
+  %user = call ptr @np_alloc_struct(i64 16)
+  call void @np_struct_set_field(ptr %user, i64 0, ptr %n)
+  call void @np_struct_set_field(ptr %user, i64 1, i64 %a)
+  ret ptr %user
 }`,
     },
   },
   {
     id: "native",
-    name: "04. Native Binary",
-    badge: "Clang Linker",
-    status: "Ready to Ship",
-    description: "Links NP runtime primitives into a standalone machine executable with zero VM overhead.",
+    name: "04. Standalone Binary",
+    badge: "Linker (g++)",
+    status: "Ready to Run",
+    description: "Links object code with runtime/libnpruntime.a to produce a single native executable (app.out).",
     icon: Binary,
-    color: "amber",
     snippet: {
-      title: "Target Output Binary (ELF / PE)",
+      title: "Native Execution (app.out)",
       language: "bash",
-      content: `$ file ./main
-./main: ELF 64-bit LSB pie executable, x86-64, dynamically linked
+      content: `$ np build main.np
+[NP] Compiling main.np to native machine code...
+[NP] LLVM -O3 optimization passes applied
+[NP] Linked with runtime/libnpruntime.a -> app.out
 
-$ ./main
-Task 1 complete
-Task 2 complete
+$ ./app.out
+Welcome: Alice
+Result: [2, 4, 6]
 
-✓ Execution time: 10.2ms | Memory: 1.8MB`,
+✓ Standalone execution completed without external VM or Python runtime`,
     },
   },
 ];
@@ -132,22 +130,22 @@ export function PipelineFlow() {
             <span>CONTINUOUS COMPILATION STREAM</span>
           </div>
           <h2 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-            From Source Code to Standalone Binary
+            From Pythonic Source to Native Binary
           </h2>
           <p className="text-base text-slate-600">
-            Click on any stage in the compilation pipeline to inspect the transformations applied by the NP compiler.
+            Click on each phase of the NP compilation pipeline to inspect the code transformation.
           </p>
         </div>
 
         {/* Pipeline Nodes Flow (Kargo-style) */}
         <div className="relative">
-          {/* Animated Flow Connecting Line */}
+          {/* Animated Connecting Line */}
           <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2 bg-slate-200 -z-0">
             <div className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-amber-500 opacity-60 animate-pulse" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
-            {STAGES.map((stage, idx) => {
+            {STAGES.map((stage) => {
               const Icon = stage.icon;
               const isSelected = stage.id === selectedStage;
 
@@ -204,19 +202,19 @@ export function PipelineFlow() {
           </div>
         </div>
 
-        {/* Live Stage Inspection Box */}
-        <div className="mt-8 rounded-2xl border border-slate-200 bg-[#0d1117] shadow-lg overflow-hidden text-slate-100">
-          <div className="flex items-center justify-between border-b border-slate-800 bg-slate-900 px-4 py-2.5 text-xs">
+        {/* Live Stage Inspection Box (Clean Minimal Light Container) */}
+        <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50/70 shadow-xs overflow-hidden text-slate-900">
+          <div className="flex items-center justify-between border-b border-slate-200/80 bg-white/80 px-4 py-2.5 text-xs">
             <div className="flex items-center gap-2">
-              <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="font-mono text-slate-300 font-semibold">{current.snippet.title}</span>
+              <span className="flex h-2 w-2 rounded-full bg-blue-600 animate-pulse" />
+              <span className="font-mono text-slate-800 font-bold">{current.snippet.title}</span>
             </div>
-            <span className="font-mono text-[11px] text-slate-400 uppercase tracking-wider">
+            <span className="font-mono text-[11px] text-slate-500 uppercase tracking-wider font-semibold">
               Format: {current.snippet.language}
             </span>
           </div>
 
-          <div className="p-5 font-mono text-xs sm:text-sm leading-relaxed text-slate-100 overflow-x-auto selection:bg-blue-600">
+          <div className="p-5 font-mono text-xs sm:text-sm leading-relaxed text-slate-800 overflow-x-auto selection:bg-blue-100">
             <pre>
               <code>{current.snippet.content}</code>
             </pre>

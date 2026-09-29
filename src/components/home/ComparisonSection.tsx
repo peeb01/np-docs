@@ -3,42 +3,49 @@ import { Check, X, Zap } from "lucide-react";
 export function ComparisonSection() {
   const features = [
     {
-      name: "Native Machine Speed (LLVM AOT)",
+      name: "Native LLVM AOT Compilation (-O3)",
       np: true,
       python: false,
       go: true,
       cpp: true,
     },
     {
-      name: "Go-Style Goroutines & Channels",
-      np: true,
-      python: false,
-      go: true,
-      cpp: false,
-    },
-    {
-      name: "Python-Like Readability & Syntax",
+      name: "Pythonic Clean Indentation Syntax",
       np: true,
       python: true,
       go: false,
       cpp: false,
     },
     {
-      name: "Zero GC Pauses & Deterministic Layout",
+      name: "List & Dict Comprehensions",
+      np: true,
+      python: true,
+      go: false,
+      cpp: false,
+    },
+    {
+      name: "Automatic Memory Management (RAII)",
+      np: true,
+      python: true,
+      go: true,
+      cpp: false,
+    },
+    {
+      name: "Zero Stop-the-World GC Pauses",
       np: true,
       python: false,
       go: false,
       cpp: true,
     },
     {
-      name: "Batteries-Included Standard Library",
+      name: "Native 128 & 256-Bit Integers",
       np: true,
       python: true,
-      go: true,
+      go: false,
       cpp: false,
     },
     {
-      name: "Single Standalone Executable Binary",
+      name: "Single Standalone Executable (app.out)",
       np: true,
       python: false,
       go: true,
@@ -59,7 +66,7 @@ export function ComparisonSection() {
             Where NP Fits In
           </h2>
           <p className="text-base text-slate-600">
-            A balanced architecture combining ergonomic syntax with raw native execution.
+            NP bridges the gap between Python developer ergonomics and C++ machine-level execution.
           </p>
         </div>
 
@@ -71,7 +78,7 @@ export function ComparisonSection() {
                 <tr className="border-b border-slate-200 bg-slate-50/70 text-xs font-bold uppercase text-slate-600 font-mono">
                   <th className="py-4 px-6">Capability</th>
                   <th className="py-4 px-6 text-center text-blue-600 bg-blue-50/50">
-                    <span className="inline-flex items-center gap-1">
+                    <span className="inline-flex items-center gap-1 font-bold">
                       <Zap className="w-3.5 h-3.5 fill-current" /> NP Language
                     </span>
                   </th>

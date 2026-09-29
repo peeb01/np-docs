@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, BookOpen, Check, Copy, Sparkles, Terminal, Zap } from "lucide-react";
+import { ArrowRight, BookOpen, Check, Copy, Terminal } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 
 export function Hero() {
   const [copied, setCopied] = useState(false);
-  const installCmd = "git clone https://github.com/peeb01/np && cmake -B build";
+  const installCmd = "alias np='docker run --rm -it -v \"$PWD\":/workspace pib21/np-lang:alpine-3.22'";
 
   const handleCopy = async () => {
     try {
@@ -31,22 +31,22 @@ export function Hero() {
             <span className="absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75 animate-ping" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-600" />
           </span>
-          <span className="font-mono font-bold">NP v0.2.0</span>
+          <span className="font-mono font-bold">NP Compiler</span>
           <span className="text-slate-300">|</span>
-          <span>Native LLVM Backend &amp; Concurrency</span>
+          <span>Pythonic Syntax • Native LLVM Execution</span>
         </div>
 
         {/* Hero Title */}
         <h1 className="mx-auto max-w-4xl text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.1]">
-          The Statically-Typed Language for{" "}
+          Pythonic Simplicity.{" "}
           <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 bg-clip-text text-transparent">
-            High-Performance Systems
+            Native C++ Speed.
           </span>
         </h1>
 
         {/* Subtitle */}
         <p className="mx-auto mt-6 max-w-2xl text-lg sm:text-xl text-slate-600 font-normal leading-relaxed">
-          NP combines the ergonomic readability of Python with Go-style lightweight concurrency and zero-overhead native LLVM compilation.
+          NP is a lightweight scripting language combining clean Python-style syntax and comprehensions with native C++ execution speeds and automated memory management via LLVM.
         </p>
 
         {/* Action Buttons */}
@@ -60,14 +60,21 @@ export function Hero() {
             <ArrowRight className="w-4 h-4 ml-2" />
           </Link>
 
+          <Link
+            href="/docs/installation"
+            className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-bold text-slate-700 shadow-xs transition-all hover:bg-slate-50 hover:border-slate-400 active:scale-95"
+          >
+            Installation Guide
+          </Link>
+
           <a
-            href="https://github.com/peeb01/np"
+            href="https://github.com/peeb01/np-compiler"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-bold text-slate-700 shadow-xs transition-all hover:bg-slate-50 hover:border-slate-400 active:scale-95"
           >
             <GithubIcon className="w-4 h-4 mr-2" />
-            peeb01/np on GitHub
+            GitHub
           </a>
         </div>
 
@@ -97,6 +104,9 @@ export function Hero() {
               )}
             </button>
           </div>
+          <p className="mt-2 text-xs text-slate-400">
+            Instant zero-install setup via Docker. Or compile from source with LLVM.
+          </p>
         </div>
       </div>
     </section>

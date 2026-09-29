@@ -38,16 +38,22 @@ export function Navbar() {
             Documentation
           </Link>
           <Link
+            href="/docs/installation"
+            className="transition-colors hover:text-blue-600"
+          >
+            Installation
+          </Link>
+          <Link
             href="/docs/basics"
             className="transition-colors hover:text-blue-600"
           >
-            Language Basics
+            Basics &amp; Types
           </Link>
           <Link
-            href="/docs/concurrency"
+            href="/docs/structs"
             className="transition-colors hover:text-blue-600"
           >
-            Concurrency
+            Structs
           </Link>
           <Link
             href="/docs/stdlib"
@@ -59,7 +65,7 @@ export function Navbar() {
             href="/docs/architecture"
             className="transition-colors hover:text-blue-600"
           >
-            Architecture
+            LLVM Architecture
           </Link>
         </nav>
 
@@ -114,11 +120,11 @@ export function Navbar() {
             Language Basics
           </Link>
           <Link
-            href="/docs/concurrency"
+            href="/docs/structs"
             onClick={() => setMobileOpen(false)}
             className="block rounded-lg px-3 py-2 text-base font-semibold text-slate-800 hover:bg-slate-50 hover:text-blue-600"
           >
-            Concurrency (go & chan)
+            Custom Structs
           </Link>
           <Link
             href="/docs/stdlib"

@@ -3,7 +3,6 @@ import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/home/Hero";
 import { PipelineFlow } from "@/components/home/PipelineFlow";
 import { DocTracks } from "@/components/home/DocTracks";
-import { InteractiveCode } from "@/components/home/InteractiveCode";
 import { ComparisonSection } from "@/components/home/ComparisonSection";
 import { CtaSection } from "@/components/home/CtaSection";
 
@@ -15,7 +14,6 @@ export default function HomePage() {
         <Hero />
         <PipelineFlow />
         <DocTracks />
-        <InteractiveCode />
         <ComparisonSection />
         <CtaSection />
       </main>
