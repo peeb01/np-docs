@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const isProd = process.env.NODE_ENV === "production";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? (isProd ? "/document.np" : "");
 
 const nextConfig: NextConfig = {
   output: "export",
@@ -9,6 +10,7 @@ const nextConfig: NextConfig = {
   },
   basePath: basePath || undefined,
   assetPrefix: basePath ? `${basePath}/` : undefined,
+  trailingSlash: true,
   devIndicators: false,
 };
 
