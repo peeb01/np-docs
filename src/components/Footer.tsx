@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Zap, BookOpen, Terminal, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { BookOpen, Terminal, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 
 export function Footer() {
@@ -9,14 +10,20 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-5">
           {/* Brand info */}
           <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white">
-                <Zap className="h-4 w-4 fill-current" />
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl overflow-hidden border border-slate-200/80 bg-white shadow-xs">
+                <Image
+                  src="/NP.png"
+                  alt="NP Logo"
+                  width={32}
+                  height={32}
+                  className="h-full w-full object-contain p-1"
+                />
               </div>
               <span className="font-black text-xl tracking-tight text-slate-900">NP Language</span>
             </div>
             <p className="text-sm text-slate-600 max-w-sm leading-relaxed">
-              A modern statically-typed compiled language combining Python-like clarity with Go-style concurrency and LLVM native speed.
+              A lightweight scripting language combining clean Python-style syntax and comprehensions with native C++ execution speeds via LLVM.
             </p>
             <div className="flex items-center gap-3 pt-2">
               <a

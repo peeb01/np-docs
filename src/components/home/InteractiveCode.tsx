@@ -133,7 +133,7 @@ export function InteractiveCode() {
             Clean Syntax, Real Speed
           </h2>
           <p className="text-sm sm:text-base text-slate-600">
-            ลองคลิกเลือกแท็บและกดปุ่ม Run เพื่อทดสอบการรันโค้ดจำลองของ NP
+            Select any tab below and click Run to test simulated execution in NP.
           </p>
         </div>
 

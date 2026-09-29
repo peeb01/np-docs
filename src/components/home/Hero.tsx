@@ -44,7 +44,7 @@ export function Hero() {
 
         {/* Simple, Non-Boasting Description */}
         <p className="mx-auto mt-4 max-w-2xl text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
-          ภาษาเขียนสคริปต์ที่ใช้ไวยากรณ์คล้าย Python แต่คอมไพล์เป็นโปรแกรมทำงานจริง (Native Binary) ได้ทันที รองรับทั้งการรันสคริปต์ตรงๆ และการบิลด์เป็นไฟล์ไบนารีพร้อมใช้งาน
+          A scripting language featuring clean Python-style syntax that compiles directly to fast native executables. Run scripts immediately or build standalone binaries.
         </p>
 
         {/* Action Buttons */}
@@ -54,7 +54,7 @@ export function Hero() {
             className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-blue-600 px-7 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-blue-700 hover:shadow-md active:scale-95"
           >
             <BookOpen className="w-4 h-4 mr-2" />
-            อ่านเอกสารคู่มือ
+            Explore Documentation
             <ArrowRight className="w-4 h-4 ml-2" />
           </Link>
 
@@ -62,7 +62,7 @@ export function Hero() {
             href="/docs/installation"
             className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-bold text-slate-700 shadow-xs transition-all hover:bg-slate-50 hover:border-slate-400 active:scale-95"
           >
-            วิธีติดตั้ง &amp; ใช้งาน
+            Installation Guide
           </Link>
 
           <a
@@ -103,7 +103,7 @@ export function Hero() {
             </button>
           </div>
           <p className="mt-2 text-xs text-slate-400">
-            รันผ่าน Docker ได้ทันทีโดยไม่ต้องติดตั้ง C++ หรือ LLVM ในเครื่อง
+            Instant zero-install setup via Docker. Or compile from source with LLVM.
           </p>
         </div>
       </div>
