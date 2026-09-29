@@ -1,0 +1,53 @@
+name: Deploy Static Docs to document.np
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout np-docs repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static website (out directory)
+        run: npm run build
+
+      - name: Ensure .nojekyll exists
+        run: touch out/.nojekyll
+
+      - name: Push static files to peeb01/document.np
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          if [ -z "$DEPLOY_TOKEN" ]; then
+            echo "ERROR: Secret DEPLOY_TOKEN is not configured in repository secrets!"
+            echo "Please create a Personal Access Token (PAT) with repo permissions"
+            echo "and add it as DEPLOY_TOKEN in Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+
+          cd out
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "deploy: static build from np-docs (${GITHUB_SHA::7})"
+          git branch -M main
+          git push -f https://x-access-token:${DEPLOY_TOKEN}@github.com/peeb01/document.np.git main
