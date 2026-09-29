@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { BookOpen, Menu, X, Search, ExternalLink } from "lucide-react";
 import { GithubIcon } from "@/components/Icons";
 
@@ -14,25 +13,13 @@ export function Navbar() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden border border-slate-200/80 bg-white shadow-xs transition-transform group-hover:scale-105">
-              <Image
-                src="/NP.png"
-                alt="NP Logo"
-                width={36}
-                height={36}
-                className="h-full w-full object-contain p-1"
-                priority
-              />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-xl tracking-tight text-slate-900">NP</span>
-                <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold tracking-wide text-blue-600 border border-blue-200">
-                  v1.1
-                </span>
-              </div>
-            </div>
+          <Link href="/" className="flex items-center gap-2 group">
+            <span className="font-black text-2xl tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
+              NP
+            </span>
+            <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-bold tracking-wide text-blue-600 border border-blue-200">
+              v1.1
+            </span>
           </Link>
         </div>
 
