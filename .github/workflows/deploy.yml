@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout np-docs repository
         uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -43,6 +45,8 @@ jobs:
             exit 1
           fi
 
+          git config --global --unset-all http.https://github.com/.extraheader || true
+
           cd out
           git init
           git config user.name "github-actions[bot]"
@@ -50,4 +54,5 @@ jobs:
           git add -A
           git commit -m "deploy: static build from np-docs (${GITHUB_SHA::7})"
           git branch -M main
-          git push -f https://x-access-token:${DEPLOY_TOKEN}@github.com/peeb01/document.np.git main
+          git remote add origin https://x-access-token:${DEPLOY_TOKEN}@github.com/peeb01/document.np.git
+          git push -f origin main
