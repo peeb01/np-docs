@@ -98,10 +98,56 @@ export default async function DocPage({ params }: PageProps) {
                 {section.title}
               </h2>
 
+              {section.signature && (
+                <div className="rounded-xl border border-blue-200/80 bg-blue-50/50 px-4 py-2.5 font-mono text-xs sm:text-sm text-slate-900 flex items-center gap-2 overflow-x-auto shadow-xs">
+                  <span className="select-none font-bold text-blue-600 text-[11px] uppercase tracking-wider font-mono">
+                    signature
+                  </span>
+                  <span className="text-slate-300">|</span>
+                  <span className="font-semibold text-slate-900 font-mono">{section.signature}</span>
+                </div>
+              )}
+
               {section.description && (
-                <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal whitespace-pre-line">
                   {section.description}
                 </p>
+              )}
+
+              {section.parameters && section.parameters.length > 0 && (
+                <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs">
+                  <div className="bg-slate-50/80 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-500 font-mono border-b border-slate-200">
+                    Parameters
+                  </div>
+                  <div className="divide-y divide-slate-100">
+                    {section.parameters.map((param, pIdx) => (
+                      <div
+                        key={pIdx}
+                        className="px-4 py-3 text-xs sm:text-sm flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4"
+                      >
+                        <div className="flex items-center gap-2 sm:w-48 shrink-0">
+                          <code className="font-bold text-slate-900 font-mono">{param.name}</code>
+                          <span className="rounded-md bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-700 border border-amber-200/60 font-mono">
+                            {param.type}
+                          </span>
+                        </div>
+                        <p className="text-slate-600 flex-1 leading-relaxed">{param.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {section.returns && (
+                <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4 text-xs sm:text-sm flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-500 font-mono shrink-0">
+                    Returns:
+                  </span>
+                  <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 border border-emerald-200 font-mono shrink-0">
+                    {section.returns.type}
+                  </span>
+                  <span className="text-slate-700 leading-relaxed">{section.returns.description}</span>
+                </div>
               )}
 
               {section.points && section.points.length > 0 && (
@@ -121,6 +167,16 @@ export default async function DocPage({ params }: PageProps) {
                   language={section.code.language}
                   filename={section.code.filename}
                 />
+              )}
+
+              {section.output && (
+                <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950 text-slate-200 text-xs font-mono shadow-xs">
+                  <div className="flex items-center justify-between bg-slate-900 px-4 py-1.5 border-b border-slate-800 text-[11px] text-slate-400 font-semibold tracking-wider uppercase">
+                    <span>Expected Terminal Output</span>
+                    <span className="text-emerald-400 font-mono text-[10px]">stdout</span>
+                  </div>
+                  <pre className="p-4 overflow-x-auto leading-relaxed text-slate-200 font-mono">{section.output}</pre>
+                </div>
               )}
 
               {section.callout && (

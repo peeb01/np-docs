@@ -67,6 +67,7 @@ const TRACKS: DocTrack[] = [
     href: "/docs/modules",
     links: [
       { label: "Modules & Import System", href: "/docs/modules" },
+      { label: "Concurrency & Channels", href: "/docs/concurrency" },
       { label: "128 & 256-Bit Integers", href: "/docs/big-integers" },
       { label: "Exception Handling (try/except)", href: "/docs/exceptions" },
     ],
@@ -74,15 +75,18 @@ const TRACKS: DocTrack[] = [
   {
     title: "Standard Library Reference",
     badge: "Modules",
-    description: "Explore built-in modules for operating systems, high-res timers, JSON, and regex matching.",
+    description: "Explore built-in modules for operating systems, high-res timers, JSON, cryptography, and networking.",
     icon: Library,
     href: "/docs/stdlib",
     links: [
       { label: "Standard Library Overview", href: "/docs/stdlib" },
-      { label: "os & sys Module", href: "/docs/stdlib-os" },
+      { label: "sys Module (CLI Args)", href: "/docs/stdlib-sys" },
       { label: "time & Clock Module", href: "/docs/stdlib-time" },
+      { label: "os Module (System & Files)", href: "/docs/stdlib-os" },
       { label: "json Serialization", href: "/docs/stdlib-json" },
       { label: "regex Pattern Engine", href: "/docs/stdlib-regex" },
+      { label: "crypto Module (SHA-256)", href: "/docs/stdlib-crypto" },
+      { label: "net Module (TCP Sockets)", href: "/docs/stdlib-net" },
     ],
   },
   {
