@@ -5,6 +5,7 @@ import { DOCS_DATA, DOC_CATEGORIES } from "@/data/docs";
 import { CodeBlock } from "@/components/CodeBlock";
 import { Callout } from "@/components/Callout";
 import { TableOfContents } from "@/components/TableOfContents";
+import { FormattedText } from "@/components/FormattedText";
 import {
   ChevronLeft,
   ChevronRight,
@@ -110,7 +111,7 @@ export default async function DocPage({ params }: PageProps) {
 
               {section.description && (
                 <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal whitespace-pre-line">
-                  {section.description}
+                  <FormattedText text={section.description} />
                 </p>
               )}
 
@@ -131,7 +132,9 @@ export default async function DocPage({ params }: PageProps) {
                             {param.type}
                           </span>
                         </div>
-                        <p className="text-slate-600 flex-1 leading-relaxed">{param.description}</p>
+                        <p className="text-slate-600 flex-1 leading-relaxed">
+                          <FormattedText text={param.description} />
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -146,7 +149,9 @@ export default async function DocPage({ params }: PageProps) {
                   <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 border border-emerald-200 font-mono shrink-0">
                     {section.returns.type}
                   </span>
-                  <span className="text-slate-700 leading-relaxed">{section.returns.description}</span>
+                  <span className="text-slate-700 leading-relaxed">
+                    <FormattedText text={section.returns.description} />
+                  </span>
                 </div>
               )}
 
@@ -155,7 +160,9 @@ export default async function DocPage({ params }: PageProps) {
                   {section.points.map((point, idx) => (
                     <li key={idx} className="flex items-start gap-2.5 text-sm text-slate-700">
                       <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-                      <span>{point}</span>
+                      <span>
+                        <FormattedText text={point} />
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -181,7 +188,7 @@ export default async function DocPage({ params }: PageProps) {
 
               {section.callout && (
                 <Callout type={section.callout.type} title={section.callout.title}>
-                  {section.callout.text}
+                  <FormattedText text={section.callout.text} />
                 </Callout>
               )}
             </section>
