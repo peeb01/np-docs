@@ -6,6 +6,7 @@ import {
   Library,
   BookOpen,
   Cpu,
+  Zap,
   ArrowRight,
   ChevronRight,
 } from "lucide-react";
@@ -87,6 +88,20 @@ const TRACKS: DocTrack[] = [
       { label: "regex Pattern Engine", href: "/docs/stdlib-regex" },
       { label: "crypto Module (SHA-256)", href: "/docs/stdlib-crypto" },
       { label: "net Module (TCP Sockets)", href: "/docs/stdlib-net" },
+    ],
+  },
+  {
+    title: "GPU Computing & Acceleration",
+    badge: "v1.1 Core",
+    description: "Write bare-metal NVIDIA GPU kernels with LLVM NVPTX, zero-dependency Driver API, and high-performance dispatch.",
+    icon: Zap,
+    href: "/docs/gpu-overview",
+    links: [
+      { label: "GPU Overview & Architecture", href: "/docs/gpu-overview" },
+      { label: "Grid, Blocks & Threads Model", href: "/docs/gpu-threads" },
+      { label: "Writing GPU Kernels", href: "/docs/gpu-kernels" },
+      { label: "gpu Module API Reference", href: "/docs/stdlib-gpu" },
+      { label: "Vector & Matrix MatMul Guide", href: "/docs/gpu-benchmarks" },
     ],
   },
   {
